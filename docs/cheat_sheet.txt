@@ -1,0 +1,20 @@
+Use a docs directory for documentaiton
+* sphinx cannot find source files above the docs directorsy so need to have everytning inside the docs directory
+* ndsphinix extension allows to include ipynb files in the toc tree
+
+Current issues:
+sphinx uses pandoc, pandoc ommits html img tags from markdown
+  Solution: use markdown images ![eqn](./img/eqn1.png){width=200px} but alignment is an issue 
+  solution:  <div style="text-align: center">![eqn](./img/eqn1.png){width=200px}</div>
+Sphinx uses mathjax: mathjax do not like indents inside equation and align enviroments
+
+When testing jupiter sphinx worked for rst files but not for html converted notebook files. ok you should embed he widget coe from the note book in a java script file for that work
+finding: the way i have implemented the roll pitchyaw is not interactible: i.e. cannot call python code
+there isa seperate framework to working with widgets -  i.e the user input is linked to a widget state through java script
+
+Todo: add collapsibility using divtags custom css and javascript to show answers. The nbsphinx python code can be edited to include additional rst directived based on cell meta data
+i.e., hide only input, or collapse only input etc.
+
+There are fixes already in issues section 
+
+jupiter book is a bettr tool for this level of customization
