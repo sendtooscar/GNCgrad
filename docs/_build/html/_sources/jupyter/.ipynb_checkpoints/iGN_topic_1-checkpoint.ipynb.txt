@@ -270,39 +270,22 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 1,
    "metadata": {
     "hide_input": false,
     "nbsphinx": "hidden"
    },
    "outputs": [
     {
-     "data": {
-      "application/vnd.jupyter.widget-view+json": {
-       "model_id": "e327b3f51a9043938f33505cdbf0ef0c",
-       "version_major": 2,
-       "version_minor": 0
-      },
-      "text/plain": [
-       "VBox(children=(Figure(camera=PerspectiveCamera(fov=46.0, position=(0.0, 0.0, 2.0), quaternion=(0.0, 0.0, 0.0, …"
-      ]
-     },
-     "metadata": {},
-     "output_type": "display_data"
-    },
-    {
-     "data": {
-      "application/vnd.jupyter.widget-view+json": {
-       "model_id": "bbec815f7ee2403a893d5c7d611186e8",
-       "version_major": 2,
-       "version_minor": 0
-      },
-      "text/plain": [
-       "interactive(children=(FloatSlider(value=0.0, description='roll', max=60.0, step=1.0), FloatSlider(value=0.0, d…"
-      ]
-     },
-     "metadata": {},
-     "output_type": "display_data"
+     "ename": "NameError",
+     "evalue": "name 'p3' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[1;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[1;32m<ipython-input-1-8fda3d4aa3ef>\u001b[0m in \u001b[0;36m<module>\u001b[1;34m\u001b[0m\n\u001b[0;32m      1\u001b[0m \u001b[1;32mimport\u001b[0m \u001b[0mipywidgets\u001b[0m \u001b[1;32mas\u001b[0m \u001b[0mwidget\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m      2\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m----> 3\u001b[1;33m \u001b[0mfigure2\u001b[0m\u001b[1;33m=\u001b[0m\u001b[0mp3\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mfigure\u001b[0m\u001b[1;33m(\u001b[0m\u001b[1;33m)\u001b[0m      \u001b[1;31m#define new figure\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m      4\u001b[0m \u001b[0mfigure2\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0manimation\u001b[0m \u001b[1;33m=\u001b[0m \u001b[1;36m0\u001b[0m    \u001b[1;31m# disable interpolation\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m      5\u001b[0m \u001b[0mp3\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mclear\u001b[0m\u001b[1;33m(\u001b[0m\u001b[1;33m)\u001b[0m               \u001b[1;31m# clear any content\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;31mNameError\u001b[0m: name 'p3' is not defined"
+     ]
     }
    ],
    "source": [
@@ -330,7 +313,7 @@
     "Show that $\\mathbf{R}_{a(t+\\delta t)}^{a(t)}=\\mathbf{I}+\\boldsymbol{\\delta\\theta}_{\\times}$, where $\\boldsymbol{\\delta\\theta}=(\\delta\\theta_x,~\\delta\\theta_y,~\\delta\\theta_z)^T$ denotes infinitesimal rotations about $x,~y$ and $z$ axis which occurs during $\\delta t$.\n",
     "\n",
     "<img src=\"img/eqn2.png\" width=\"500\" /> \n",
-    "<div style=\"text-align: center\">![eqn](./img/eqn2.png){width=500px}</div>"
+    "<div style=\"text-align: center\">![eqn2](./img/eqn2.png){width=500px}</div>"
    ]
   },
   {
@@ -341,7 +324,7 @@
     "Show that $\\dot{\\mathbf{R}}_b^a=\\mathbf{R}_b^a\\mathbf{\\Omega}_{ab}^b$\n",
     "\n",
     "<img src=\"img/eqn3.png\" width=\"500\" /> \n",
-    "<div style=\"text-align: center\">![eqn](./img/eqn3.png){width=500px}</div>"
+    "<div style=\"text-align: center\">![eqn3](./img/eqn3.png){width=500px}</div>"
    ]
   },
   {
@@ -412,7 +395,7 @@
    "metadata": {},
    "source": [
     "<img src=\"img/eqn1.png\" width=\"500\" /> \n",
-    "<div style=\"text-align: center\">![eqn](./img/eqn1.png){width=500px}</div>\n"
+    "<div style=\"text-align: center\">![eqn1](./img/eqn1.png){width=500px}</div>\n"
    ]
   }
  ],
