@@ -131,7 +131,7 @@
     "* Fernet serret frame can be defined for a smooth diffferentiable tajectory in space parameterized by $s$. The three basis vectors are defined as the tangent ($\\mathbf{T}$), the normal ($\\mathbf{N}$), and the binormal ($\\mathbf{B}$) as shown in figure below [[5]]\n",
     "\n",
     "<img src=\"img/Frenet-Serret-frame_along_Vivani-curve.gif\" width=\"400\" align=\"middle\"/> \n",
-    "<div style=\"text-align: center\">![Frenet-Serret-frame_along_Vivani-curve.gif](./img/Frenet-Serret-frame_along_Vivani-curve.gif){width=400px}</div>\n",
+    "<div style=\"text-align: center\">![Frenet-Serret-frame_along_Vivani-curve.gif](./img/FSFrame.png){width=250px}</div>\n",
     "\n",
     "* The velocity $\\mathbf{v}$ curvature $\\kappa$ and torsion $\\tau$ of the curve. The magnitue of the velocity is denoted as $v:=|\\mathbf{v}|$. The angular velocity $\\boldsymbol{\\omega}$ of the fernet serret frame is termed as the Darboux vector given by the following equation\n",
     "\n",
