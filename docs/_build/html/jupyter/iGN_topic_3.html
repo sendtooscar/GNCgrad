@@ -904,15 +904,15 @@ ans =
 <li><p>Simulating the reference trajectory</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
 <span></span><span class="n">xr0</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span><span class="o">&#39;</span><span class="p">;</span> <span class="c">% inttial conditions</span>
-<span class="n">tspan</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">20</span><span class="p">;</span>
+<span class="n">tspan</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">30</span><span class="p">;</span>
 <span class="n">ur</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
 
-<span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">xr</span><span class="p">]</span> <span class="p">=</span> <span class="n">ode45</span><span class="p">(@(</span><span class="n">t</span><span class="p">,</span><span class="n">xr</span><span class="p">)(</span><span class="n">A</span><span class="o">*</span><span class="n">xr</span><span class="o">+</span><span class="n">B</span><span class="o">*</span><span class="nb">sign</span><span class="p">(</span><span class="mi">10</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">ur</span><span class="p">),</span><span class="n">tspan</span><span class="p">,</span><span class="n">xr0</span><span class="p">);</span>
+<span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">xr</span><span class="p">]</span> <span class="p">=</span> <span class="n">ode45</span><span class="p">(@(</span><span class="n">t</span><span class="p">,</span><span class="n">xr</span><span class="p">)(</span><span class="n">A</span><span class="o">*</span><span class="n">xr</span><span class="o">+</span><span class="n">B</span><span class="o">*</span><span class="n">double</span><span class="p">(</span><span class="n">t</span><span class="o">&lt;</span><span class="mi">20</span><span class="p">)</span><span class="o">*</span><span class="nb">sign</span><span class="p">(</span><span class="mi">10</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">ur</span><span class="p">),</span><span class="n">tspan</span><span class="p">,</span><span class="n">xr0</span><span class="p">);</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">xr</span><span class="p">(:,</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">)</span>
 
@@ -941,20 +941,19 @@ ans =
 <li><p>simulating controller error and error state</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
 <div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
 <span></span><span class="n">x0</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">0.2</span> <span class="mf">2.0</span> <span class="mf">0.0</span><span class="p">]</span><span class="o">&#39;</span><span class="p">;</span> <span class="c">% inttial conditions for state and observer</span>
-<span class="n">tspan</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">20</span><span class="p">;</span>
+<span class="n">tspan</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">30</span><span class="p">;</span>
 <span class="n">A_new</span><span class="p">=[</span><span class="n">A</span><span class="o">-</span><span class="n">B</span><span class="o">*</span><span class="n">Kc</span>     <span class="n">B</span><span class="o">*</span><span class="n">Kc</span><span class="p">;</span>
        <span class="nb">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="n">A</span><span class="o">-</span><span class="n">L</span><span class="o">*</span><span class="n">C</span><span class="p">];</span>
 <span class="n">B_new</span><span class="p">=[</span><span class="n">B</span><span class="p">;</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">];</span>
 <span class="n">ur</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
 
-<span class="n">A_new</span><span class="o">*</span><span class="n">x0</span>
 
-<span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="p">=</span> <span class="n">ode45</span><span class="p">(@(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">)(</span><span class="n">A_new</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">B_new</span><span class="o">*</span><span class="nb">sign</span><span class="p">(</span><span class="mi">10</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">ur</span><span class="p">),</span><span class="n">tspan</span><span class="p">,</span><span class="n">x0</span><span class="p">);</span>
+<span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="p">=</span> <span class="n">ode45</span><span class="p">(@(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">)(</span><span class="n">A_new</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">B_new</span><span class="o">*</span><span class="n">double</span><span class="p">(</span><span class="n">t</span><span class="o">&lt;</span><span class="mi">20</span><span class="p">)</span><span class="o">*</span><span class="nb">sign</span><span class="p">(</span><span class="mi">10</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">ur</span><span class="p">),</span><span class="n">tspan</span><span class="p">,</span><span class="n">x0</span><span class="p">);</span>
 
 <span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">i</span><span class="p">)</span>
@@ -972,16 +971,6 @@ ans =
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 
-ans =
-
-         0
-    2.4000
-         0
-   -0.0500
-   -0.8000
-    0.4000
-
-
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -989,6 +978,65 @@ ans =
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/jupyter_iGN_topic_3_35_1.png" src="../_images/jupyter_iGN_topic_3_35_1.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>As seen above the system state tracking error asymptotically converges to zero. Specifically the state <span class="math notranslate nohighlight">\(\Delta v\)</span> converges to zero when <span class="math notranslate nohighlight">\(u^*\)</span> is constant and <span class="math notranslate nohighlight">\(\Delta p\)</span> converges to zero when <span class="math notranslate nohighlight">\(u^*\)</span> is zero.</p></li>
+<li><p>We can further improve set point tracking by making <span class="math notranslate nohighlight">\(\dot{u}^*\)</span> define the trajectory as follows, in which case</p></li>
+</ul>
+<div style="text-align: center"><p><a class="reference internal" href="../_images/eqn6.png"><img alt="eqn6" src="../_images/eqn6.png" style="width: 500px;" /></a></p>
+</div><ul class="simple">
+<li><p>Simulating the controller error, error state, and input</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">x0</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">0.2</span> <span class="mf">2.0</span> <span class="mf">0.0</span> <span class="mi">0</span><span class="p">]</span><span class="o">&#39;</span><span class="p">;</span> <span class="c">% inttial conditions for state and observer</span>
+<span class="n">tspan</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">30</span><span class="p">;</span>
+<span class="n">A_new</span><span class="p">=[</span><span class="n">A</span><span class="o">-</span><span class="n">B</span><span class="o">*</span><span class="n">Kc</span>     <span class="n">B</span><span class="o">*</span><span class="n">Kc</span>               <span class="n">B</span><span class="p">;</span>
+       <span class="nb">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="n">A</span><span class="o">-</span><span class="n">L</span><span class="o">*</span><span class="n">C</span>      <span class="nb">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+       <span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>        <span class="o">-</span><span class="mi">2</span><span class="p">];</span> <span class="c">% a negative eigen value is added for stability of u mode</span>
+<span class="n">B_new</span><span class="p">=[</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">;</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">ur</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>  <span class="c">% jerk for 0.01 seconds</span>
+
+
+<span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="p">=</span> <span class="n">ode45</span><span class="p">(@(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">)(</span><span class="n">A_new</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">B_new</span><span class="o">*</span><span class="n">double</span><span class="p">(</span><span class="n">t</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">ur</span><span class="o">-</span><span class="n">B_new</span><span class="o">*</span><span class="n">double</span><span class="p">(</span><span class="n">t</span><span class="o">==</span><span class="mi">10</span><span class="p">)</span><span class="o">*</span><span class="n">ur</span><span class="p">),</span><span class="n">tspan</span><span class="p">,</span><span class="n">x0</span><span class="p">);</span>
+
+<span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">i</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">(:,</span><span class="nb">i</span><span class="p">))</span>
+<span class="k">end</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/jupyter_iGN_topic_3_37_1.png" src="../_images/jupyter_iGN_topic_3_37_1.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>As seen above both state tracking errors asymptotically converges to zero when <span class="math notranslate nohighlight">\(u^*\)</span> is constant.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
 </div>
 </div>
 </div>
