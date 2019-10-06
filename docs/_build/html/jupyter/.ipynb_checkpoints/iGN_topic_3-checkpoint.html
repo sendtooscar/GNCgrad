@@ -1,0 +1,1005 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Linear controllers and Observers &mdash; GNCgrad 2019 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> GNCgrad
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Modelling Navigation Systems:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../iGN_topic_1.html">Mathematical Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../iGN_topic_2.html">Common Navigation Frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../iGN_topic_3.html">Linear controllers and Observers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">GNCgrad</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Linear controllers and Observers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/jupyter/.ipynb_checkpoints/iGN_topic_3-checkpoint.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Linear-controllers-and-Observers">
+<h1>Linear controllers and Observers<a class="headerlink" href="#Linear-controllers-and-Observers" title="Permalink to this headline">¶</a></h1>
+<p>This section considers the guidance navigation and control (GNC) design for Linear systems.</p>
+<div class="section" id="Linear-Time-Invariant-(LTI)-systems">
+<h2>Linear Time Invariant (LTI) systems<a class="headerlink" href="#Linear-Time-Invariant-(LTI)-systems" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>A general nonlinear system can be modeled using a set of differential equations as given below.</p></li>
+</ul>
+<p><span class="math">\begin{equation} \begin{array}{c}
+\dot{\mathbf{x}} = f(\mathbf{x},\mathbf{u},\mathbf{w})\\
+\mathbf{y} = g(\mathbf{x},\boldsymbol{\nu})
+\end{array}\end{equation}</span></p>
+<ul class="simple">
+<li><p>In this general model <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> denotes the <strong>state</strong> vector, <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> denotes the measurement vector, <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> denotes the inputs to the system, <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> denotes the <strong>process noise</strong>, and <span class="math notranslate nohighlight">\(\boldsymbol{\nu}\)</span> denotes the <strong>measurement noise</strong>. The nonlinear functions <span class="math notranslate nohighlight">\(f\)</span> and <span class="math notranslate nohighlight">\(g\)</span> are is the process and measurement model respectively.</p></li>
+<li><p>This is a <strong>stochastic system</strong> as the noise variables introduce uncertainty to the model. When the noise variables are removed this system can be identified as a <strong>deterministic system</strong>.</p></li>
+<li><p>If the system is modeled using linear ordinary differential equations with non time varying coefficients, more generally if the system satisfies the principal of superposition, the system is a linear time invariant (LTI) system. In which case the model simplifies to a vector matrix equation with constant matrices <span class="math notranslate nohighlight">\(A,B,\)</span> and <span class="math notranslate nohighlight">\(C\)</span>.</p></li>
+</ul>
+<p><span class="math">\begin{equation} \begin{array}{c}
+\dot{\mathbf{x}} = A\mathbf{x} + B\mathbf{u} \\
+\mathbf{y} = C\mathbf{x}
+\end{array}\end{equation}</span></p>
+<ul class="simple">
+<li><p>The <strong>states</strong> of a dynamic system is the smallest set of variables such that the knowledge of these variables at time <span class="math notranslate nohighlight">\(t = t_0\)</span> and the knowledge of the inputs <span class="math notranslate nohighlight">\(t \geq t_0\)</span> completely determines the behavior of the system <span class="math notranslate nohighlight">\(\forall t \geq t_0\)</span>. State space representation for a given system is not unique, but always posses the same number of state variables.</p></li>
+</ul>
+</div>
+<div class="section" id="Stability">
+<h2>Stability<a class="headerlink" href="#Stability" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Asymptotic stability</strong>: An LTI system is asymptotically stable if for an impulse input the the output decays to zero.</p></li>
+<li><p>From classical control theory poles of a system are the roots of the characteristic equation of an LTI system, i.e., the <strong>poles</strong> are the roots of the denominator polynomial of a transfer function. In state space representation the poles are same as the Eigen values of matrix <span class="math notranslate nohighlight">\(A\)</span>.</p></li>
+<li><p>A system is asymptotically stable if all poles are located in the right half of the s plane. The system is critically stable if there are poles on the imaginary axis. If there are multiple similar poles on the imaginary axis or poles on the right hand side of the <span class="math notranslate nohighlight">\(s\)</span> plane the system is unstable.</p></li>
+</ul>
+<div class="section" id="Exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h3>
+<p>Consider the LTI state space model defined by the <span class="math notranslate nohighlight">\(A,B,C\)</span> matrices below. The state vector is defined as <span class="math notranslate nohighlight">\(\mathbf{x}=[p~ v ~b_a]^T\)</span> where <span class="math notranslate nohighlight">\(p\)</span> denotes the position, <span class="math notranslate nohighlight">\(v\)</span> denotes velocity and <span class="math notranslate nohighlight">\(b_a\)</span> denotes a bias term. Comment on the stability of the system.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="c">% The state space model</span>
+<span class="n">A</span><span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">;</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>
+<span class="n">B</span><span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">]</span><span class="o">&#39;</span><span class="p">;</span>
+<span class="n">C</span><span class="p">=</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">sys</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span><span class="p">,[],</span><span class="nb">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),[]);</span>
+<span class="n">initial</span><span class="p">(</span><span class="n">sys</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+ans =
+
+     0
+     0
+     0
+
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_5_1.png" src="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_5_1.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>As shown above the system is unstable. i.e. repeated poles on imaginary axis cause instabilty. Looking at an arbitrary initial condition response indicates that states p and v diverge (unstable) while <span class="math notranslate nohighlight">\(b_a\)</span> remains constant (marginally stable).</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="Controllability-and-stabilizability">
+<h2>Controllability and stabilizability<a class="headerlink" href="#Controllability-and-stabilizability" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>A system is said to be <strong>controllable</strong> at time <span class="math notranslate nohighlight">\(t_0\)</span> if it is possible to apply an unconstrained input vector to transfer the system from the initial state <span class="math notranslate nohighlight">\(x(t_0)\)</span> to any state in a finite interval of time. The necessary and sufficient conditions for controllability of a system is that the controllability matrix should be of rank <span class="math notranslate nohighlight">\(n\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the number of states.</p></li>
+<li><p>The column vectors of the controllability matrix spans the controllable space of the system, i.e, indicates the controllable directions (<strong>controllable modes</strong>) of a system.</p></li>
+<li><p>The <strong>right null space</strong> is defined as the vectors <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> that satisfy <span class="math notranslate nohighlight">\(\forall \mathbf{x}\neq 0 ~s.t.~ \mathbf{x}^TA=\mathbf{0}\)</span>.</p></li>
+<li><p>The right null space of the controllability matrix indicates the directions which are uncontrollable (<strong>uncontrollable modes</strong>).</p></li>
+<li><p>If all eigen values of a system have negative real part then the system is stable, i.e., all modes are stable. For a system to be <strong>stabilizable</strong> any unstable mode of the system should be controllable and uncontrollable modes of the system should be stable.</p></li>
+</ul>
+<div class="section" id="Exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h3>
+<p>Comment on the stability and stabilizability of the system you studied in the previous exercise.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">C</span><span class="p">=[</span><span class="n">B</span> <span class="n">A</span><span class="o">*</span><span class="n">B</span> <span class="p">(</span><span class="n">A</span><span class="p">)</span>^<span class="mi">2</span><span class="o">*</span><span class="n">B</span><span class="p">]</span>
+<span class="n">rank</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+C =
+
+     0     1     0
+     1     0     0
+     0     0     0
+
+
+ans =
+
+     2
+
+
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p>The controllability of the system indicates that the system is controllable along two directions using the inputs. And the column space of the controllability matrix spans the directions which are controllable. i.e., <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(v\)</span> . While <span class="math notranslate nohighlight">\(b_a\)</span> is uncontrollable.</p></li>
+<li><p>In the above system the uncontrollable mode is (marginally) stable. And the unstable modes <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(v\)</span> are controllable. Hence its a stabilizable system. i.e, we can relocate the poles of the unstable modes while leaving the poles of the stable modes unchanged.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="State-Feedback-controller">
+<h2>State Feedback controller<a class="headerlink" href="#State-Feedback-controller" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>For a stabilizable system we can design a state feedback controller to drive the states to its equilibrium (<span class="math notranslate nohighlight">\(0\)</span>). State feedback controller applies an input where <span class="math notranslate nohighlight">\(u=-Kx\)</span>.</p></li>
+</ul>
+<div style="text-align: center"><p><a class="reference internal" href="jupyter\.ipynb_checkpoints\./img/state_feedback_controller.png"><img alt="state_feedback_controller" src="jupyter\.ipynb_checkpoints\./img/state_feedback_controller.png" style="width: 350px;" /></a></p>
+</div><ul class="simple">
+<li><p>Applying this results in an autonoumous linear system model of the form</p></li>
+</ul>
+<p><span class="math">\begin{equation} \begin{array}{c}
+\dot{\mathbf{x}} = (A - BK)\mathbf{x} \\
+\end{array}\end{equation}</span></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(K\)</span> should be selected such that the poles of <span class="math notranslate nohighlight">\(A-BK\)</span> on the left hand side of the imaginary plane.</p></li>
+</ul>
+<div class="section" id="Exercise-3">
+<h3>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h3>
+<p>You are required to design a controller to stabilize states <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(v\)</span> of the previous exercise. Find a suitable controller gain <span class="math notranslate nohighlight">\(K\)</span> for the controller.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Kc</span><span class="p">=</span><span class="n">place</span><span class="p">(</span><span class="n">A</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),</span><span class="n">B</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),[</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="nb">i</span> <span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="nb">i</span><span class="p">]);</span> <span class="c">%gains with ~5s settling time</span>
+<span class="c">%because 1/Tau is the pole and ~5*Tau is settling time</span>
+<span class="c">% the new autonoumous system becomes dx= (A-B*Kc)x</span>
+<span class="n">Kc</span><span class="p">=[</span><span class="n">Kc</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">A_new</span><span class="p">=(</span><span class="n">A</span><span class="o">-</span><span class="n">B</span><span class="o">*</span><span class="n">Kc</span><span class="p">)</span>
+<span class="n">eig</span><span class="p">(</span><span class="n">A_new</span><span class="p">)</span> <span class="c">%checking the location of the new poles</span>
+<span class="n">sys</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A_new</span><span class="p">,[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span><span class="nb">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),[</span><span class="mi">0</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Kc =
+
+     2     2     0
+
+
+A_new =
+
+     0     1     0
+    -2    -2    -1
+     0     0     0
+
+
+ans =
+
+  -1.0000 + 1.0000i
+  -1.0000 - 1.0000i
+   0.0000 + 0.0000i
+
+
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p>Now if we look at the poles of the new system <span class="math notranslate nohighlight">\(\dot{\mathbf{x}} = (A - BK)\mathbf{x}\)</span> , the poles are all at stable locations (marginally stable in the case of <span class="math notranslate nohighlight">\(b_a\)</span> ) . And the initial condition response drives the controlled states to zero while remains marginally stable (does not change) as shown below. The column vectors of the observability matrix spans the observable space of the system, i.e, indicates the observable directions of a system.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pzmap</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_13_1.png" src="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_13_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">initial</span><span class="p">(</span><span class="n">sys</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_14_1.png" src="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_14_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Observabilty-and-detectabilty">
+<h2>Observabilty and detectabilty<a class="headerlink" href="#Observabilty-and-detectabilty" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>A system is said to be <strong>observable</strong> at time <span class="math notranslate nohighlight">\(t_0\)</span> if it is possible to determine the system state <span class="math notranslate nohighlight">\(x(t_0)\)</span> from the observation of the output <span class="math notranslate nohighlight">\(y\)</span> over a finite time interval. For full state observability the observability matrix should be of rank <span class="math notranslate nohighlight">\(n\)</span>,where <span class="math notranslate nohighlight">\(n\)</span> is the number of states.</p></li>
+<li><p>The row vectors of the observability matrix spans the observable space of the system, i.e, indicates the observable directions (<strong>observable modes</strong>) of a system.</p></li>
+<li><p>The <strong>left null space</strong> is defined as the vectors <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> that satisfy <span class="math notranslate nohighlight">\(\forall \mathbf{x}\neq 0 ~s.t.~ A\mathbf{x}=\mathbf{0}\)</span>.</p></li>
+<li><p>The left null space of the observability matrix indicates the directions which are unobservable (<strong>unobservable modes</strong>).</p></li>
+<li><p>For a system to be <strong>detectable</strong> any unstable mode of the system should be observable and unobservable modes of the system should be stable.</p></li>
+</ul>
+<div class="section" id="Exercise-4">
+<h3>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h3>
+<p>Comment on the observability and detectability of the system given in exercise 1.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">O</span><span class="p">=[</span><span class="n">C</span><span class="p">;</span> <span class="n">C</span><span class="o">*</span><span class="n">A</span><span class="p">;</span> <span class="n">C</span><span class="o">*</span><span class="n">A</span>^<span class="mi">2</span><span class="p">]</span>
+<span class="n">rank</span><span class="p">(</span><span class="n">O</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+O =
+
+     0     1     0
+     1     0     0
+     0     0     0
+     0     0    -1
+     0     1     0
+     0     0     0
+     0     0     0
+     0     0    -1
+     0     0     0
+
+
+ans =
+
+     3
+
+
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p>The observability of the system indicates which modes of the error state can be driven to zero. In this case all states are observable. i.e., all error states can be driven to zero.</p></li>
+<li><p>A system is detectable if unobservable modes of the error state are stable. Hence the above system is detectable.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="Luenberger-Observer">
+<h2>Luenberger Observer<a class="headerlink" href="#Luenberger-Observer" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The Luenberger observer for a system is defined as follows:</p></li>
+</ul>
+<p><span class="math">\begin{equation} \begin{array}{c}
+\dot{\hat{\mathbf{x}}} = A\hat{\mathbf{x}} + B\mathbf{u} + L(\mathbf{y}-\hat{\mathbf{y}})\\
+\hat{\mathbf{y}}=C\hat{\mathbf{x}}.
+\end{array}\end{equation}</span></p>
+<ul class="simple">
+<li><p>In the above equation <span class="math notranslate nohighlight">\(\hat{\mathbf{x}}\)</span> denotes the estimated state, <span class="math notranslate nohighlight">\(\hat{\mathbf{y}}\)</span> denotes the estimated measurement, and <span class="math notranslate nohighlight">\(L\)</span> denotes the Observer gain.</p></li>
+</ul>
+<div style="text-align: center"><p><a class="reference internal" href="jupyter\.ipynb_checkpoints\./img/observer.png"><img alt="observer" src="jupyter\.ipynb_checkpoints\./img/observer.png" style="width: 480px;" /></a></p>
+</div><ul class="simple">
+<li><p>The design of observer gain <span class="math notranslate nohighlight">\(L\)</span> is performed using the error state <span class="math notranslate nohighlight">\(\tilde{\mathbf{x}}\)</span> dynamics of the system.</p></li>
+<li><p>The error state is defined as <span class="math notranslate nohighlight">\(\tilde{\mathbf{x}}=\mathbf{x}-\hat{\mathbf{x}}\)</span> and its dynamics is defined as</p></li>
+</ul>
+<p><span class="math">\begin{equation} \begin{array}{c l}
+\require{cancel}
+\dot{\tilde{\mathbf{x}}} &= A\mathbf{x} + \cancel{B\mathbf{u}} - A\hat{\mathbf{x}} - \cancel{B\mathbf{u}} - L(\mathbf{y}-\hat{\mathbf{y}})\\
+\dot{\tilde{\mathbf{x}}} &= (A-LC)\tilde{\mathbf{x}}
+\end{array}\end{equation}</span></p>
+<div class="section" id="Exercise-5">
+<h3>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h3>
+<p>You are required to design an observer for the system given in exercise 1. Find a suitable observer gain <span class="math notranslate nohighlight">\(L\)</span> for the observer.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">L</span><span class="p">=</span><span class="n">place</span><span class="p">(</span><span class="n">A</span><span class="o">&#39;</span><span class="p">,</span><span class="n">C</span><span class="o">&#39;</span><span class="p">,[</span><span class="o">-</span><span class="p">.</span><span class="mi">2</span><span class="o">+</span><span class="p">.</span><span class="mi">4</span><span class="nb">i</span> <span class="o">-</span><span class="p">.</span><span class="mi">2</span><span class="o">-</span><span class="p">.</span><span class="mi">4</span><span class="nb">i</span> <span class="o">-</span><span class="p">.</span><span class="mi">25</span><span class="p">]).</span><span class="o">&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+L =
+
+    1.0000    0.2500         0
+    0.4000    0.0000         0
+   -0.2000   -0.0000         0
+
+
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p>We can test the response of the error state for the designed observer as follows.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">A_new</span><span class="p">=(</span><span class="n">A</span><span class="o">-</span><span class="n">L</span><span class="o">*</span><span class="n">C</span><span class="p">)</span>
+<span class="n">eig</span><span class="p">(</span><span class="n">A_new</span><span class="p">)</span>
+<span class="n">sys</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A_new</span><span class="p">,[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span><span class="nb">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">initial</span><span class="p">(</span><span class="n">sys</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+A_new =
+
+   -0.2500         0         0
+   -0.0000   -0.4000   -1.0000
+    0.0000    0.2000         0
+
+
+ans =
+
+  -0.2000 + 0.4000i
+  -0.2000 - 0.4000i
+  -0.2500 + 0.0000i
+
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_22_1.png" src="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_22_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Coupled-Observer-Controller-system">
+<h2>Coupled Observer Controller system<a class="headerlink" href="#Coupled-Observer-Controller-system" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The State feedback control law <span class="math notranslate nohighlight">\(\mathbf{u}=-K\mathbf{x}\)</span> introduced in this note assumed the availability of the full system state <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> as feedback.</p></li>
+<li><p>However, in practice all we have is an estimated state <span class="math notranslate nohighlight">\(\hat{\mathbf{x}}\)</span> coming from an observer. Therefore, the control law should read as <span class="math notranslate nohighlight">\(\mathbf{u}=-K\hat{\mathbf{x}}\)</span> when observer is coupled with a controller.</p></li>
+<li><p>It can be shown that the eigen values of the coupled observer controller system is equal to the eigen values of the state feedback contoller and luenberger observer when considered separately.</p></li>
+<li><p>Therefore, one can easily design the controller and the observer separately without any explicit analysis of what happens when the observer is combined with the controller during implementation. This feature is identified as the <strong>linear separation principal</strong>.</p></li>
+</ul>
+<div class="section" id="Exercise-6">
+<h3>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h3>
+<p>Show that the coupled observer controller dynamics can be defined as</p>
+<p><span class="math">\begin{equation} \begin{array}{c}
+\begin{bmatrix}\dot{\hat{\mathbf{x}}}\\ \dot{\tilde{\mathbf{x}}}\end{bmatrix} =\begin{bmatrix}A-BK & BK\\ \mathbf{0} & A-LC\end{bmatrix}\begin{bmatrix}{\hat{\mathbf{x}}}\\ {\tilde{\mathbf{x}}}\end{bmatrix}
+\end{array}\end{equation}</span></p>
+<div style="text-align: center"><p><a class="reference internal" href="jupyter\.ipynb_checkpoints\./img/eqn4.png"><img alt="eqn4" src="jupyter\.ipynb_checkpoints\./img/eqn4.png" style="width: 400px;" /></a></p>
+</div></div>
+<div class="section" id="Exercise-7">
+<h3>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h3>
+<p>Find the initial condition response of controller designed in exercise 4 when coupled with the observer designed in exercise 6.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span> <span class="n">A_new</span><span class="p">=[</span><span class="n">A</span><span class="o">-</span><span class="n">B</span><span class="o">*</span><span class="n">Kc</span>     <span class="n">B</span><span class="o">*</span><span class="n">Kc</span><span class="p">;</span>
+       <span class="nb">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="n">A</span><span class="o">-</span><span class="n">L</span><span class="o">*</span><span class="n">C</span><span class="p">];</span>
+<span class="n">eig</span><span class="p">(</span><span class="n">A_new</span><span class="p">)</span>
+<span class="n">sys</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A_new</span><span class="p">,[],</span><span class="nb">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">),[]);</span>
+<span class="n">initial</span><span class="p">(</span><span class="n">sys</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+ans =
+
+  -1.0000 + 1.0000i
+  -1.0000 - 1.0000i
+  -0.2000 + 0.4000i
+  -0.2000 - 0.4000i
+   0.0000 + 0.0000i
+  -0.2500 + 0.0000i
+
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_27_1.png" src="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_27_1.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>As seen above the Eigen values of the observer controller system is same as the Eigen values of the Leunberger observer and the state feedback controller designed in Exercise 3 and 4.</p></li>
+<li><p>One can easily design the observer and controller separately because linear seperation principal applies.</p></li>
+<li><p>The state and error state of the coupled observer controller above converges to zero. The bias state remains constant as it is an uncontrollable but marginally stable state.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="Set-point-tracking-controller">
+<h2>Set point tracking controller<a class="headerlink" href="#Set-point-tracking-controller" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>The state feedback controller above only considered stabilizing the state <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to <span class="math notranslate nohighlight">\(0\)</span> starting from an arbitrary initial condition. However, in practice it is desirable to reach a certain set point for the state <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span>, or more generally reach a reference trajectory for the controllable states <span class="math notranslate nohighlight">\(\mathbf{x}^*(t)\)</span>.</p></li>
+<li><p>For set point tracking the controller structure can be illustrated as follows:</p>
+<div style="text-align: center"><p><a class="reference internal" href="jupyter\.ipynb_checkpoints\./img/tracking.png"><img alt="tracking" src="jupyter\.ipynb_checkpoints\./img/tracking.png" style="width: 580px;" /></a></p>
+</div></li>
+<li><p>One important requirement for stability is that the reference state <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> dynamics should be feasible, and the reference input signal is a bounded input. The coupled observer controller model for set point tracking can be formulated as follows:</p></li>
+</ul>
+<div style="text-align: center"><p><a class="reference internal" href="jupyter\.ipynb_checkpoints\./img/eqn5.png"><img alt="eqn5" src="jupyter\.ipynb_checkpoints\./img/eqn5.png" style="width: 450px;" /></a></p>
+</div><ul class="simple">
+<li><p>In summary for guidance navigation and control of a LTI system:</p>
+<ol class="arabic simple">
+<li><p>The system should be stabilizable and detectable</p></li>
+<li><p>A state feedback controller should be designed for the controllable modes - <strong>Control</strong></p></li>
+<li><p>A Luenberger observer should be designed for the observable modes - <strong>Navigation</strong></p></li>
+<li><p>A dynamically feasible trajectory should be provided for set point tracking - <strong>Guidance</strong></p></li>
+<li><p>When the GNC subsystems are combined together, the full system remains stable thanks to the linear separation principal.</p></li>
+</ol>
+</li>
+</ul>
+<div class="section" id="Exercise-8">
+<h3>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h3>
+<p>For the controller observer system you designed in Ex.7, perform a set point tracking starting from initial condition <span class="math notranslate nohighlight">\([0~0~0]\)</span> and reaching the state <span class="math notranslate nohighlight">\([100~0~0]\)</span> in minimum possible time. Assume that the input acceleration to the system is bounded at <span class="math notranslate nohighlight">\(\pm 1 ms^{-2}\)</span>.</p>
+<div style="text-align: center"><p><a class="reference internal" href="jupyter\.ipynb_checkpoints\./img/ex8.png"><img alt="ex8" src="jupyter\.ipynb_checkpoints\./img/ex8.png" style="width: 500px;" /></a></p>
+</div><ul class="simple">
+<li><p>Simulating the reference trajectory</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">xr0</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span><span class="o">&#39;</span><span class="p">;</span> <span class="c">% inttial conditions</span>
+<span class="n">tspan</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">20</span><span class="p">;</span>
+<span class="n">ur</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">xr</span><span class="p">]</span> <span class="p">=</span> <span class="n">ode45</span><span class="p">(@(</span><span class="n">t</span><span class="p">,</span><span class="n">xr</span><span class="p">)(</span><span class="n">A</span><span class="o">*</span><span class="n">xr</span><span class="o">+</span><span class="n">B</span><span class="o">*</span><span class="nb">sign</span><span class="p">(</span><span class="mi">10</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">ur</span><span class="p">),</span><span class="n">tspan</span><span class="p">,</span><span class="n">xr0</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">xr</span><span class="p">(:,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">)</span>
+
+<span class="n">hold</span> <span class="n">on</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">xr</span><span class="p">(:,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">legend</span><span class="p">(</span><span class="s">&#39;position &#39;</span><span class="p">,</span> <span class="s">&#39;velocity&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_33_1.png" src="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_33_1.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>simulating controller error and error state</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-matlab notranslate"><div class="highlight"><pre>
+<span></span><span class="n">x0</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">0.2</span> <span class="mf">2.0</span> <span class="mf">0.0</span><span class="p">]</span><span class="o">&#39;</span><span class="p">;</span> <span class="c">% inttial conditions for state and observer</span>
+<span class="n">tspan</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">20</span><span class="p">;</span>
+<span class="n">A_new</span><span class="p">=[</span><span class="n">A</span><span class="o">-</span><span class="n">B</span><span class="o">*</span><span class="n">Kc</span>     <span class="n">B</span><span class="o">*</span><span class="n">Kc</span><span class="p">;</span>
+       <span class="nb">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="n">A</span><span class="o">-</span><span class="n">L</span><span class="o">*</span><span class="n">C</span><span class="p">];</span>
+<span class="n">B_new</span><span class="p">=[</span><span class="n">B</span><span class="p">;</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">;</span><span class="mi">0</span><span class="p">];</span>
+<span class="n">ur</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="n">A_new</span><span class="o">*</span><span class="n">x0</span>
+
+<span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="p">=</span> <span class="n">ode45</span><span class="p">(@(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">)(</span><span class="n">A_new</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">B_new</span><span class="o">*</span><span class="nb">sign</span><span class="p">(</span><span class="mi">10</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">ur</span><span class="p">),</span><span class="n">tspan</span><span class="p">,</span><span class="n">x0</span><span class="p">);</span>
+
+<span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">i</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">(:,</span><span class="nb">i</span><span class="p">))</span>
+<span class="k">end</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">)</span>
+
+<span class="c">%legend(&#39;position &#39;, &#39;velocity&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+ans =
+
+         0
+    2.4000
+         0
+   -0.0500
+   -0.8000
+    0.4000
+
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_35_1.png" src="../../_images/jupyter_.ipynb_checkpoints_iGN_topic_3-checkpoint_35_1.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Oscar De Silva
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

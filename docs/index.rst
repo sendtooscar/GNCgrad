@@ -20,6 +20,7 @@ This website contains lecture notes and examples needed to help completing your 
 
    jupyter/iGN_topic_1.ipynb
    jupyter/iGN_topic_2.ipynb
+   jupyter/iGN_topic_3.ipynb
 
 .. todo::
 	Sensor Models
